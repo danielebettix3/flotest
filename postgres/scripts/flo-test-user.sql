@@ -12,6 +12,11 @@ create table public.user
 );
 ALTER TABLE public."user" OWNER to postgres;
 
+INSERT INTO public."user" (userid, cognome, indirizzo, nome, password) VALUES (nextval('user_userid_seq'), 'Betti', 'tp@rrr.it', 'Daniele', 'passWord');
+INSERT INTO public."user" (userid, cognome, indirizzo, nome, password) VALUES (nextval('user_userid_seq'), 'Betti', 'tp@ttt.it', 'Daniele', 'passWord');
+INSERT INTO public."user" (userid, cognome, indirizzo, nome, password) VALUES (nextval('user_userid_seq'), 'Betti', 'tp@lll.it', 'Daniele', 'passWord');
+commit;
+
 create database testuser  with owner postgres;
 \connect testuser
 
@@ -28,5 +33,9 @@ create table public.user
 );
 ALTER TABLE public."user" OWNER to postgres;
 
+INSERT INTO public."user" (userid, cognome, indirizzo, nome, password) VALUES (nextval('user_userid_seq'), 'Betti', 'tp@rrr.it', 'Daniele', 'passWord');
+INSERT INTO public."user" (userid, cognome, indirizzo, nome, password) VALUES (nextval('user_userid_seq'), 'Betti', 'tp@ttt.it', 'Daniele', 'passWord');
+INSERT INTO public."user" (userid, cognome, indirizzo, nome, password) VALUES (nextval('user_userid_seq'), 'Betti', 'tp@lll.it', 'Daniele', 'passWord');
 commit;
+
 -- alter table user add constraint user_indirizzo_key unique (indirizzo);

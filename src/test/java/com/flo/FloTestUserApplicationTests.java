@@ -39,12 +39,13 @@ import static org.hamcrest.Matchers.lessThan;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class FloTestUserApplicationTests
 {
+    long userId = 1;
+    User user = new User(null, "Daniele", "Betti", "password", "danielebetti@mailexmpl.com");
+
     @Autowired
     com.flo.config.User login;
     @Autowired
     private WebApplicationContext webApplicationContext;
-
-    User user = new User(null, "Daniele", "Betti", "password", "danielebetti@mailexmpl.com");
 
     String password = "secure";
 
@@ -66,7 +67,6 @@ class FloTestUserApplicationTests
 
         log.info("randomServerPort: "+randomServerPort);
 
-        a_postUser();
     }
 
     @Test
@@ -75,7 +75,8 @@ class FloTestUserApplicationTests
         ExtractableResponse<Response> res = RestAssured
                 .given().port(randomServerPort)
                 .auth().preemptive().basic(login.getUsername(),password)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.ALL_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(user)
                 .log().all()
                 .post("/users")
@@ -98,8 +99,9 @@ class FloTestUserApplicationTests
         RestAssured
                 .given().port(randomServerPort)
                 .auth().preemptive().basic(login.getUsername(),password)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("id", user.getId())
+                .accept(MediaType.ALL_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", userId)
                 .body(user)
                 .log().all()
                 .put("/users/{id}")
@@ -117,7 +119,7 @@ class FloTestUserApplicationTests
                 .given().port(randomServerPort)
                 .auth().preemptive().basic(login.getUsername(),password)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("id", user.getId())
+                .pathParam("id", userId)
                 .log().all()
                 .get("/users/{id}")
                 .then()
@@ -144,7 +146,7 @@ class FloTestUserApplicationTests
                 .time(lessThan(5L), TimeUnit.SECONDS)
                 .and()
                 .assertThat()
-                .body("users.size()", greaterThan(0))
+                .body("size()", greaterThan(0))
         ;
     }
 
@@ -167,7 +169,7 @@ class FloTestUserApplicationTests
                 .time(lessThan(1L), TimeUnit.SECONDS)
                 .and()
                 .assertThat()
-                .body("users.size()", greaterThan(0))
+                .body("size()", greaterThan(0))
         ;
     }
 
@@ -189,7 +191,7 @@ class FloTestUserApplicationTests
                 .time(lessThan(1L), TimeUnit.SECONDS)
                 .and()
                 .assertThat()
-                .body("users.size()", greaterThan(0))
+                .body("size()", greaterThan(0))
         ;
     }
 
@@ -212,7 +214,7 @@ class FloTestUserApplicationTests
                 .time(lessThan(1L), TimeUnit.SECONDS)
                 .and()
                 .assertThat()
-                .body("users.size()", greaterThan(0))
+                .body("size()", greaterThan(0))
         ;
     }
 
@@ -222,7 +224,7 @@ class FloTestUserApplicationTests
         RestAssured
                 .given().port(randomServerPort)
                 .auth().preemptive().basic(login.getUsername(),password)
-                .pathParam("id", user.getId())
+                .pathParam("id", userId)
                 .body(new User(0L, "Daniele", "Betti", "passWord", "daniele@mailexample.com"))
                 .log().all()
                 .delete("/users/{id}")

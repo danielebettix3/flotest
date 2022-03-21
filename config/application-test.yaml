@@ -31,14 +31,6 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
-  api:
-    title: Spring Boot APIs
-    version: 1.0.0
-    description: Spring Boot APIs
-    base-package: com.flo.controller
-    swagger:
-      enable: true
-
 logging:
   level:
     root: INFO
@@ -51,6 +43,8 @@ logging:
 springdoc:
   api-docs:
     path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
 
 management:
   endpoints:
@@ -67,8 +61,8 @@ management:
       enabled: true
     health:
       enabled: true
-
-management.security.enabled: false
+  security:
+    enabled: true
 
 server:
   port: 8081

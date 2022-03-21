@@ -7,6 +7,7 @@
 6. Creazione di una immagine Docker del progetto
 7. Gestione del progetto con Git
 
+![alt text](./swagger-test-user.png)
 
 # Getting Started
 
@@ -20,7 +21,7 @@ Per eseguire il deploy in docker dell'applicativo utilizzare i seguenti comandi 
 
 In alternativa è possibile utilizzare lo script:
 
-> .\build.bat 0.0.1-SNAPSHOT
+> .\build.bat
 
 ---
 
@@ -42,6 +43,10 @@ Endpoint swagger:
 > http://localhost:8081/api-docs/
 >
 > http://localhost:8081/swagger-ui/index.html?configUrl=/api-docs/swagger-config
+
+---
+
+> 
 
 ---
 ### Reference Documentation

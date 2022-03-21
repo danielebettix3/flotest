@@ -1,0 +1,192 @@
+openapi: 3.0.1
+info:
+  title: Users API
+  description: Users Information
+  version: "1.0"
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+paths:
+  /users/{id}:
+    get:
+      tags:
+      - user-controller
+      summary: Get a user by its id
+      operationId: getUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: User not found
+          content: {}
+        "200":
+          description: Found the User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - basicAuth: []
+    put:
+      tags:
+      - user-controller
+      summary: Update user
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: Updated the User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - basicAuth: []
+    delete:
+      tags:
+      - user-controller
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Invalid User
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: User deleted
+  /users:
+    get:
+      tags:
+      - user-controller
+      summary: Get the users by theirs name and surname
+      operationId: findUsers
+      parameters:
+      - name: nome
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: cognome
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Invalid id supplied
+          content: {}
+        "404":
+          description: User not found
+          content: {}
+        "200":
+          description: Found the Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      security:
+      - basicAuth: []
+    post:
+      tags:
+      - user-controller
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Invalid User
+          content: {}
+        "404":
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: User saved
+components:
+  schemas:
+    User:
+      required:
+      - cognome
+      - indirizzo
+      - nome
+      - password
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          maxLength: 255
+          minLength: 1
+          type: string
+        cognome:
+          maxLength: 255
+          minLength: 1
+          type: string
+        password:
+          maxLength: 255
+          minLength: 1
+          type: string
+        indirizzo:
+          maxLength: 255
+          minLength: 1
+          type: string
+  securitySchemes:
+    user:
+      type: http
+      in: header
+      scheme: basic
